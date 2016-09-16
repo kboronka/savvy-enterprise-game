@@ -2,9 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 # SharpDevelop 4.4
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinServiceLauncher", "WinServiceLauncher\WinServiceLauncher.csproj", "{5CE8FCB6-9EB4-4290-9E95-B2F252C12C90}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinServiceLauncherSetup", "WinServiceLauncherSetup\WinServiceLauncherSetup.csproj", "{3B183D53-F427-435A-BDB8-F666BC7B37D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Savvy", "Savvy\Savvy.csproj", "{5CE8FCB6-9EB4-4290-9E95-B2F252C12C90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
