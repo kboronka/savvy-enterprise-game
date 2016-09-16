@@ -27,7 +27,7 @@ namespace Savvy.Commands
 {
 	public class Uninstall : sar.Base.Command
 	{
-		public Uninstall(sar.Base.CommandHub parent) : base(parent, "Uninstall",
+		public Uninstall(sar.Base.CommandHub parent) : base(parent, "Uninstall Service",
 		                                                    new List<string> { "uninstall", "u" },
 		                                                    @"-u",
 		                                                    new List<string> { "-u" })

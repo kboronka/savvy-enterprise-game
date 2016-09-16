@@ -40,7 +40,10 @@ namespace Savvy
 				#else
 				root += @"\views";
 				#endif
+				
+				Logger.Log("Starting HTTP Server");
 				Engine.Server = new HttpServer(root);
+				Logger.Log("Started HTTP Server [Port : " + Engine.Server.Port.ToString() + "]");
 				
 				Logger.Log("Starting LED Updater thread");
 				engineShutdown = false;

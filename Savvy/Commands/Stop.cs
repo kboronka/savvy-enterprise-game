@@ -27,7 +27,7 @@ namespace Savvy.Commands
 {
 	public class Stop : sar.Base.Command
 	{
-		public Stop(sar.Base.CommandHub parent) : base(parent, "Stop",
+		public Stop(sar.Base.CommandHub parent) : base(parent, "Stop Service",
 		                                              new List<string> { "stop" },
 		                                              @"-stop",
 		                                              new List<string> { "-stop" })

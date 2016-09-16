@@ -16,7 +16,9 @@
 using System;
 using System.Linq;
 using System.ServiceProcess;
+using System.Threading;
 
+using sar;
 using Base=sar.Base;
 using sar.Tools;
 
@@ -32,12 +34,17 @@ namespace Savvy
 				
 				if (!System.Environment.UserInteractive)
 				{
-					ServiceBase.Run(new ServiceBase[] { new Savvy() });
+					ServiceBase.Run(new ServiceBase[] { new Service() });
 				}
 				else
 				{
 					try
 					{
+						Logger.LogToConsole = true;
+						
+						var thread = new Thread(Service.StartServices);
+						thread.Start();
+						
 						var hub = new CommandHub();
 						Progress.Start();
 						ConsoleHelper.ApplicationShortTitle();

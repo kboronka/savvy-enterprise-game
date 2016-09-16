@@ -38,14 +38,15 @@ namespace Savvy
 		protected override void InitDefaults()
 		{
 			this.users = new List<User>();
-			this.products = new List<Product>();			
+			this.products = new List<Product>();
 		}
 		
 		protected override void Deserialize(XML.Reader reader)
 		{
 			this.users = new List<User>();
-			this.products = new List<Product>();
-
+			this.products = Product.GetProducts();
+			
+			
 			try
 			{
 				while (reader.Read())
@@ -56,9 +57,6 @@ namespace Savvy
 						{
 							case "Users":
 								this.users.Add(new User(reader));
-								break;
-							case "Product":
-								products.Add(new Product(reader));
 								break;
 						}
 					}
@@ -73,7 +71,7 @@ namespace Savvy
 		protected override void Serialize(XML.Writer writer)
 		{
 			this.Users.ForEach(u => u.Serialize(writer));
-			this.Products.ForEach(p => p.Serialize(writer));
+			Product.SaveProducts(this.products);
 		}
 	}
 }

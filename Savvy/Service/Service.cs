@@ -27,11 +27,11 @@ using sar.Tools;
 
 namespace Savvy
 {
-	public class Savvy : ServiceBase
+	public class Service : ServiceBase
 	{
 		public const string MyServiceName = "Savvy";
 		
-		public Savvy()
+		public Service()
 		{
 			InitializeComponent();
 		}

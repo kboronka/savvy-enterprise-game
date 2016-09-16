@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="Commands\CommandHub.cs" />
     <Compile Include="Commands\Install.cs" />
-    <Compile Include="Commands\Run.cs" />
     <Compile Include="Commands\Start.cs" />
     <Compile Include="Commands\Stop.cs" />
     <Compile Include="Commands\Uninstall.cs" />
@@ -101,28 +100,8 @@
     <Folder Include="Parameters" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <PreBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.js" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.map" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.css" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.gzip" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.eot" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.svg" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.ttf" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff2" "$(ProjectDir)Http\Views\assets"</PreBuildEvent>
-    <PostBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)Http\Views\*.*" "$(TargetDir)views"</PostBuildEvent>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PreBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.js" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.map" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.css" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.gzip" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.eot" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.svg" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.ttf" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff" "$(ProjectDir)Http\Views\assets"
-"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff2" "$(ProjectDir)Http\Views\assets"</PreBuildEvent>
-    <PostBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)Http\Views\*.*" "$(TargetDir)views"</PostBuildEvent>
+    <PostBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)Http\Views\*.*" "$(TargetDir)views"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)Http\Models\*.xml" "$(TargetDir)models"</PostBuildEvent>
   </PropertyGroup>
 </Project>

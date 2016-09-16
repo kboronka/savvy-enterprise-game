@@ -27,7 +27,7 @@ namespace Savvy.Commands
 {
 	public class Install : sar.Base.Command
 	{
-		public Install(sar.Base.CommandHub parent) : base(parent, "Install",
+		public Install(sar.Base.CommandHub parent) : base(parent, "Install Service",
 		                                                  new List<string> { "install", "i" },
 		                                                  @"-i",
 		                                                  new List<string> { "-i" })
