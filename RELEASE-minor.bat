@@ -6,18 +6,10 @@
 	:: 7zip 64bit								http://www.filehippo.com/download_7-zip_64/
 	:: SharpDevelop v4x							http://www.icsharpcode.net/OpenSource/SD/Download/#SharpDevelop4x
 
-:Optional Software
-	:: php										http://windows.php.net/download/
-
-:DownloadLink
-	:: GoogleCode: https://code.google.com/p/sar-tool/downloads/list
-	:: SourceForge: http://sourceforge.net/projects/sartool/files/
-	:: GitHub: https://github.com/kboronka/sar-tool/trunk
-
 :BuildEnvironment
 	@echo off
 	pushd "%~dp0"
-	set SOLUTION=WinServiceLauncher.sln
+	set SOLUTION=Savvy.sln
 	set REPO=https://github.com/kboronka/win-service-launcher/
 	set CONFIG=Release
 	set BASEPATH=%~dp0
@@ -37,8 +29,8 @@
 	svn update
 	svn revert -R .
 	
-	%SAR% -assy.ver \WinServiceLauncher\AssemblyInfo.* %VERSION%
-	%SAR% -f.del WinServiceLauncher\bin\%CONFIG%\*.* /q /svn
+	%SAR% -assy.ver \Savvy\AssemblyInfo.* %VERSION%
+	%SAR% -f.del Savvy\bin\%CONFIG%\*.* /q /svn
 	
 	echo building binaries
 	%SAR% -b.net 3.5 %SOLUTION% /p:Configuration=%CONFIG% /p:Platform=\"x86\"
@@ -49,17 +41,17 @@
 	
 :BuildComplete
 	svn revert
-	copy WinServiceLauncher\bin\%CONFIG%\*.exe release\*.exe
-	copy WinServiceLauncher\bin\%CONFIG%\*.dll release\*.dll	
-	copy WinServiceLauncher\bin\%CONFIG%\*.pdb release\*.pdb
+	copy Savvy\bin\%CONFIG%\*.exe release\*.exe
+	copy Savvy\bin\%CONFIG%\*.dll release\*.dll	
+	copy Savvy\bin\%CONFIG%\*.pdb release\*.pdb
 	copy LICENSE release\LICENSE
 	
 	svn commit -m "new binaries v%VERSION%"
-	%ZIP% "WinServiceLauncher %VERSION%.zip" .\release\*.*
+	%ZIP% "Savvy %VERSION%.zip" .\release\*.*
 	svn update
 
-	%SAR% -f.bsd \WinServiceLauncher\*.cs "Kevin Boronka"
-	%SAR% -f.bsd \WinServiceLauncherSetup\*.cs "Kevin Boronka"
+	%SAR% -f.bsd \Savvy\*.cs "Kevin Boronka"
+	%SAR% -f.bsd \Savvy\*.cs "Kevin Boronka"
 	
 	echo build completed
 	popd
