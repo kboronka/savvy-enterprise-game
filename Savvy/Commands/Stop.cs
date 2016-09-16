@@ -23,7 +23,7 @@ using System.ServiceProcess;
 using sar.Base;
 using sar.Tools;
 
-namespace WinServiceLauncher.Commands
+namespace Savvy.Commands
 {
 	public class Stop : sar.Base.Command
 	{
@@ -43,7 +43,7 @@ namespace WinServiceLauncher.Commands
 			}
 			
 			Progress.Message = "Stopping Service";
-			bool success = ServiceHelper.TryStop("WinServiceLauncher.exe");
+			bool success = ServiceHelper.TryStop("Savvy.exe");
 			
 			if (success)
 			{

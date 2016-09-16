@@ -22,23 +22,23 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 
+using sar;
 using sar.Tools;
-using WinServiceLauncher.Launchers;
 
-namespace WinServiceLauncher
+namespace Savvy
 {
-	public class WinServiceLauncher : ServiceBase
+	public class Savvy : ServiceBase
 	{
-		public const string MyServiceName = "WinServiceLauncher";
+		public const string MyServiceName = "Savvy";
 		
-		public WinServiceLauncher()
+		public Savvy()
 		{
 			InitializeComponent();
 		}
 		
 		private void InitializeComponent()
 		{
-			this.ServiceName = MyServiceName;
+			this.ServiceName = AssemblyInfo.Name;
 		}
 		
 		protected override void Dispose(bool disposing)
@@ -48,35 +48,25 @@ namespace WinServiceLauncher
 		
 		protected override void OnStart(string[] args)
 		{
-			Thread thread = new Thread(StartServices);
+			var thread = new Thread(StartServices);
 			thread.Start();
 		}
 		
 		protected override void OnStop()
 		{
-			foreach (Launcher app in Configuration.All.Launchers)
-			{
-				app.Kill();
-			}
+			Engine.StopThreads();
 		}
 		
 		public static void StartServices()
 		{
 			try
 			{
-				Configuration.Load();
-				
-				if (Configuration.All.Launchers != null)
-				{
-					foreach (Launcher app in Configuration.All.Launchers)
-					{
-						app.Start();
-					}
-				}
+				Engine.ReadXMLParameters();
+				Engine.StartTreads();
 			}
 			catch (Exception ex)
 			{
-				Program.Log(ex);
+				Logger.Log(ex);
 			}
 		}		
 	}

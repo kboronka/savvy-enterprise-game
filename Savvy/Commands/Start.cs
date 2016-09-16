@@ -23,7 +23,7 @@ using System.ServiceProcess;
 using sar.Base;
 using sar.Tools;
 
-namespace WinServiceLauncher.Commands
+namespace Savvy.Commands
 {
 	public class Start : sar.Base.Command
 	{
@@ -43,7 +43,7 @@ namespace WinServiceLauncher.Commands
 			}
 			
 			Progress.Message = "Starting Service";
-			bool success = ServiceHelper.TryStart("WinServiceLauncher.exe");
+			bool success = ServiceHelper.TryStart("Savvy.exe");
 			
 			if (success)
 			{

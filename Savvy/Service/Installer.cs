@@ -19,7 +19,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace WinServiceLauncher
+namespace Savvy
 {
 	[RunInstaller(true)]
 	public class ProjectInstaller : Installer
@@ -52,7 +52,7 @@ namespace WinServiceLauncher
 				//serviceProcessInstaller.Account = ServiceAccount.NetworkService;
 			}
 			
-			serviceInstaller.ServiceName = WinServiceLauncher.MyServiceName;
+			serviceInstaller.ServiceName = Savvy.MyServiceName;
 			serviceInstaller.StartType = ServiceStartMode.Automatic;
 			//serviceInstaller.DelayedAutoStart = true;
 			

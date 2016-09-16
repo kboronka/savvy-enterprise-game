@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WinServiceLauncher")]
-[assembly: AssemblyDescription("WinServiceLauncher")]
+[assembly: AssemblyTitle("Savvy")]
+[assembly: AssemblyDescription("Savvy")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WinServiceLauncher")]
+[assembly: AssemblyProduct("Savvy")]
 [assembly: AssemblyCopyright("Copyright 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -28,4 +28,4 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("0.0.0.42")]
+[assembly: AssemblyVersion("0.0.0.1")]

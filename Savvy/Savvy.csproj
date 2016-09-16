@@ -5,8 +5,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Exe</OutputType>
-    <RootNamespace>WinServiceLauncher</RootNamespace>
-    <AssemblyName>WinServiceLauncher</AssemblyName>
+    <RootNamespace>Savvy</RootNamespace>
+    <AssemblyName>Savvy</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -19,7 +19,8 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <WarningLevel>4</WarningLevel>
-    <ApplicationIcon>WinServiceLauncher.ico</ApplicationIcon>
+    <ApplicationIcon>Savvy.ico</ApplicationIcon>
+    <StartupObject>Savvy.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -69,26 +70,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHub.cs" />
+    <Compile Include="Commands\CommandHub.cs" />
     <Compile Include="Commands\Install.cs" />
     <Compile Include="Commands\Run.cs" />
     <Compile Include="Commands\Start.cs" />
     <Compile Include="Commands\Stop.cs" />
     <Compile Include="Commands\Uninstall.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="DriveFreespaceMonitor.cs" />
-    <Compile Include="Launchers\History.cs" />
-    <Compile Include="Launchers\KeepAlive.cs" />
-    <Compile Include="Launchers\OnInterval.cs" />
-    <Compile Include="Launchers\Launcher.cs" />
-    <Compile Include="Launchers\OnShutdown.cs" />
-    <Compile Include="Launchers\OnStartup.cs" />
-    <Compile Include="Launchers\OnTimeOfDay.cs" />
-    <Compile Include="Launchers\Schedule.cs" />
-    <Compile Include="SocketServer.cs" />
-    <Compile Include="WinLauncherService.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="ProjectInstaller.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="Http\Controllers\DashboardController.cs" />
+    <Compile Include="Http\Controllers\UserController.cs" />
+    <Compile Include="Models\Factory.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Parameters\Configuration.cs" />
+    <Compile Include="Service\Installer.cs" />
+    <Compile Include="Service\Service.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +93,36 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands" />
-    <Folder Include="Launchers" />
+    <Folder Include="Models" />
+    <Folder Include="Http\Controllers" />
+    <Folder Include="Http" />
+    <Folder Include="Http\Views" />
+    <Folder Include="Service" />
+    <Folder Include="Parameters" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PreBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.js" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.map" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.css" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.gzip" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.eot" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.svg" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.ttf" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff2" "$(ProjectDir)Http\Views\assets"</PreBuildEvent>
+    <PostBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)Http\Views\*.*" "$(TargetDir)views"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PreBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.js" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.map" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.css" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.gzip" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.eot" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.svg" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.ttf" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff" "$(ProjectDir)Http\Views\assets"
+"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)..\libs\*.woff2" "$(ProjectDir)Http\Views\assets"</PreBuildEvent>
+    <PostBuildEvent>"$(ProjectDir)..\libs\sar-tool\release\sar.exe" -f.c "$(ProjectDir)Http\Views\*.*" "$(TargetDir)views"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

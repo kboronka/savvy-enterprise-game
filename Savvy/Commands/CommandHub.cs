@@ -14,13 +14,27 @@
  */
 
 using System;
+using System.Collections.Generic;
 
-namespace WinServiceLauncher.Launchers
+using sar.Base;
+using sar.Commands;
+using sar.Tools;
+using Savvy.Commands;
+
+namespace Savvy
 {
-	public class History
+	public class CommandHub : sar.Base.CommandHub
 	{
-		public History()
+		public CommandHub() : base()
 		{
+			// load all command modules
+			base.commandList.AddRange(new Command[] {
+			                          	new Install(this),
+			                          	new Uninstall(this),
+			                          	new Run(this),
+			                          	new Start(this),
+			                          	new Stop(this)
+			                          });
 		}
 	}
 }

@@ -23,7 +23,7 @@ using System.ServiceProcess;
 using sar.Base;
 using sar.Tools;
 
-namespace WinServiceLauncher.Commands
+namespace Savvy.Commands
 {
 	public class Install : sar.Base.Command
 	{

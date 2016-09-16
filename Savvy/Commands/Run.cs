@@ -23,7 +23,7 @@ using System.ServiceProcess;
 using sar.Base;
 using sar.Tools;
 
-namespace WinServiceLauncher.Commands
+namespace Savvy.Commands
 {
 	public class Run : sar.Base.Command
 	{
@@ -44,7 +44,7 @@ namespace WinServiceLauncher.Commands
 			
 			Program.Log("Engine Running in Console Mode");
 			Progress.Message = "Engine Running in Console Mode";
-			Thread thread = new Thread(WinServiceLauncher.StartServices);
+			Thread thread = new Thread(Savvy.StartServices);
 			thread.Start();
 			
 			while (true)

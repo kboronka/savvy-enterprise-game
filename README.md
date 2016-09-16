@@ -1,2 +1,2 @@
-# win-service-launcher
-runs as a service and launches non-service applications
+# savvy enterprise game
+a smart business simulation game

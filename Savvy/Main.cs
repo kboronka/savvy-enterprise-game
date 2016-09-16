@@ -14,32 +14,49 @@
  */
 
 using System;
+using System.Linq;
+using System.ServiceProcess;
 
+using Base=sar.Base;
 using sar.Tools;
 
-namespace WinServiceLauncher
+namespace Savvy
 {
-	public class SocketServer : sar.Socket.SocketServer
+	internal sealed class Program : Base.Program
 	{
-		#region constructors
-		
-		public SocketServer(XML.Reader reader): base(int.Parse(reader.GetAttributeString("port")), Program.ErrorLog, Program.DebugLog)
+		static void Main(string[] args)
 		{
-		
-		}
-		
-		#endregion
-		
-		#region methods
+			try
+			{
+				Base.Program.LogInfo();
 				
-		public void Serialize(XML.Writer writer)
-		{
-			writer.WriteStartElement("SocketServer");
-			writer.WriteAttributeString("port", base.port.ToString());
-			writer.WriteEndElement();	// Launcher
+				if (!System.Environment.UserInteractive)
+				{
+					ServiceBase.Run(new ServiceBase[] { new Savvy() });
+				}
+				else
+				{
+					try
+					{
+						var hub = new CommandHub();
+						Progress.Start();
+						ConsoleHelper.ApplicationShortTitle();
+						hub.ProcessCommands(args);
+					}
+					catch (Exception ex)
+					{
+						ConsoleHelper.WriteException(ex);
+
+					}
+					
+					Progress.Stop();
+					return;
+				}
+			}
+			catch
+			{
+				
+			}
 		}
-		
-		#endregion
-		
 	}
 }

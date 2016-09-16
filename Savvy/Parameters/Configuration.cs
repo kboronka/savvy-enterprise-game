@@ -20,53 +20,31 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
+using sar;
 using sar.Tools;
-using WinServiceLauncher.Launchers;
 
-namespace WinServiceLauncher
+using Savvy.Models;
+
+namespace Savvy
 {
-	public class Configuration : sar.Base.Configuration
+	public class Parameters : sar.Base.Configuration
 	{
-		#region singleton
+		private List<User> users;
+		private List<Product> products;
 		
-		private static Configuration all;
+		public List<User> Users { get { return users; } }
+		public List<Product> Products { get { return products; } }
 		
-		public static Configuration All
+		protected override void InitDefaults()
 		{
-			get
-			{
-				if (Configuration.all == null)
-				{
-					Configuration.all = new Configuration();
-					all.Save();
-				}
-				
-				return Configuration.all;
-			}
-		}
-		
-		public static void Load()
-		{
-			Configuration.all = Configuration.All;
-		}
-		
-		#endregion
-		
-		private List<Launcher> launchers;
-		private SocketServer socketServer;
-		
-		public List<Launcher> Launchers
-		{
-			get
-			{
-				if (launchers == null) Configuration.Load();
-				return launchers;
-			}
+			this.users = new List<User>();
+			this.products = new List<Product>();			
 		}
 		
 		protected override void Deserialize(XML.Reader reader)
 		{
-			this.launchers = new List<Launcher>();
+			this.users = new List<User>();
+			this.products = new List<Product>();
 
 			try
 			{
@@ -76,34 +54,26 @@ namespace WinServiceLauncher
 					{
 						switch (reader.Name)
 						{
-							case "Launcher":
-								this.launchers.Add(new Launcher(reader));
+							case "Users":
+								this.users.Add(new User(reader));
 								break;
-							case "SocketServer":
-								socketServer = new SocketServer(reader);
+							case "Product":
+								products.Add(new Product(reader));
 								break;
 						}
 					}
 				}
 			}
-			catch
+			catch(Exception ex)
 			{
-				
+				Logger.Log(ex);
 			}
 		}
 		
 		protected override void Serialize(XML.Writer writer)
 		{
-			if (this.socketServer != null) this.socketServer.Serialize(writer);
-
-			writer.WriteStartElement("Launchers");
-
-			foreach (Launcher launcher in Configuration.All.Launchers)
-			{
-				launcher.Serialize(writer);
-			}
-			
-			writer.WriteEndElement();	// Launchers
+			this.Users.ForEach(u => u.Serialize(writer));
+			this.Products.ForEach(p => p.Serialize(writer));
 		}
 	}
 }
