@@ -1,5 +1,228 @@
 ﻿<html>
+	<head>
+		<title>Business Savvy Dashboard</title>
+		<style>
+			html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video
+			{
+				margin: 0;
+				padding: 0;
+				border: 0;
+				outline: 0;
+				font-size: 100%;
+				vertical-align: baseline;
+				background: transparent;
+			}
+
+			ul.NavBar
+			{
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #333;
+				position: fixed;
+				top: 0;
+				width: 100%;
+				z-index:3;
+			}
+
+			li.NavLink
+			{
+				float: left;
+			}
+
+			li.NavLink a
+			{
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 10px 10px;
+				text-decoration: none;
+			}
+
+			/* Change the link color to #111 (black) on hover */
+			li.NavLink a:hover
+			{
+				background-color: #111;
+			}
+
+			li.NavLink.Active
+			{
+				background-color: #4CAF50;
+				color: white;
+			}
+
+			div.FeatureBar
+			{
+				list-style-type: none;
+				padding-top: 44px;
+				margin: 0;
+				width: 180px;
+				background-color: #f1f1f1;
+				position: fixed;
+				height: 100%;
+				overflow: auto;
+				z-index: 2;
+			}
+
+			div.FeatureLink a
+			{
+				display: block;
+				color: #000;
+				padding: 8px 0 8px 16px;
+				text-decoration: none;
+				cursor: move;
+			}
+
+			/*div.FeatureLink a:hover
+			{
+				background-color: #555;
+				color: white;
+			}*/
+
+			div.FeatureCanvas
+			{
+				position: fixed;
+				margin-left:10%;
+				height: 100%;
+				width: 100%
+			}
+
+			.FeatureLink.over
+			{
+				border: 2px dashed #000;
+			}
+
+			.noselect
+			{
+  			-webkit-touch-callout: none; /* iOS Safari */
+  			-webkit-user-select: none;   /* Chrome/Safari/Opera */
+  			-khtml-user-select: none;    /* Konqueror */
+  			-moz-user-select: none;      /* Firefox */
+  			-ms-user-select: none;       /* Internet Explorer/Edge */
+  			user-select: none;           /* Non-prefixed version, currently
+                                  			not supported by any browser */
+}
+</style>
+</head>
 <body>
-	<h1>Savvy</h1>
+	<ul class="NavBar">
+		<li class="NavLink NoSelect" style="width:180px; display: block; color: white; text-align: center; padding: 10px 0px; text-decoration: none; ">Dashboard</li>
+		<li class="NavLink NoSelect"><a>OPC Builder</a></li>
+		<li class="NavLink NoSelect"><a>Example</a></li>
+	</ul>
+	<div class="FeatureBar">
+		<div id="draggable" class="FeatureLink" draggable="true"><a>Feature 1</a></div>
+		<div id="draggable" class="FeatureLink" draggable="true"><a>Feature 2</a></div>
+		<div id="draggable" class="FeatureLink" draggable="true"><a>Feature 3</a></div>
+		<div id="draggable" class="FeatureLink" draggable="true"><a>Feature 4</a></div>
+	</div>
+	<div id="featureCanvas" class="FeatureCanvas">
+	</div>
+	<script>
+
+		//Variable Declaration
+		var features = document.querySelectorAll('#draggable');
+		var featureCanvas = document.getElementById("featureCanvas");
+		var dragSrcEl = null;
+
+		/**
+		 ** Function: handleDragStart
+		 ** Purpose: When an object is dragged, set the opacity of the source to 40% and store the source information into the data transfer object
+		 **/
+		function handleDragStart(e) {
+			//Target (this) element is the source node.
+			this.style.opacity = '0.4';
+
+			dragSrcEl = this;
+
+			e.dataTransfer.effectAllowed = 'move';
+			e.dataTransfer.setData('text/html', this.innerHTML);
+		}
+
+		/**
+		 ** Function: handleDragOver
+		 ** Purpose: When dragged object is over a possible drop location make sure the object can be dropped.
+		 **/
+		function handleDragOver(e) {
+			if (e.preventDefault) {
+				e.preventDefault(); //Necessary. Allows us to drop.
+			}
+
+			e.dataTransfer.dropEffect = 'move';  //See the section on the DataTransfer object.
+
+			return false;
+		}
+
+		/**
+		 ** Function: handleDragEnter
+		 ** Purpose: When dragged object is over a possible drop location add the "over" css class
+		 **/
+		function handleDragEnter(e) {
+			//this / e.target is the current hover target.
+			this.classList.add('over');
+		}
+
+		/**
+		 ** Function: handleDragLeave
+		 ** Purpose: When dragged object is no longer over a possible drop location remove the "over" css class
+		 **/
+		function handleDragLeave(e) {
+			this.classList.remove('over');
+		}
+
+		/**
+		 ** Function: handleDrop
+		 ** Purpose: When the feature is dropped handle the transfer of data
+		 **/
+		function handleDrop(e) {
+			//this / e.target is current target element.
+			this.style.opacity = '1.0';
+
+			if (e.stopPropagation) {
+				e.stopPropagation(); //Stops some browsers from redirecting.
+			}
+
+			//Don't do anything if dropping the same column we're dragging.
+			if (dragSrcEl != this) {
+				//Set the source column's HTML to the HTML of the column we dropped on.
+				dragSrcEl.innerHTML = this.innerHTML;
+				this.innerHTML = e.dataTransfer.getData('text/html');
+			}
+
+			return false;
+		}
+
+		/**
+		 ** Function: handleDragEnd
+		 ** Purpose: When the drag ends perform actions to clean up
+		 **/
+		function handleDragEnd(e) {
+			//Set the Opacity to 1.
+			this.style.opacity = '1.0';
+
+			[].forEach.call(features, function (feature) {
+				feature.classList.remove('over');
+
+			});
+		}
+
+		[].forEach.call(features, function(feature) {
+			feature.addEventListener('dragstart', handleDragStart, false);
+			feature.addEventListener('dragenter', handleDragEnter, false)
+			feature.addEventListener('dragover', handleDragOver, false);
+			feature.addEventListener('dragleave', handleDragLeave, false);
+			feature.addEventListener('drop', handleDrop, false);
+			feature.addEventListener('dragend', handleDragEnd, false);
+		});
+
+		featureCanvas.addEventListener('dragover',handleDragOver,false);
+		featureCanvas.addEventListener('dragenter',handleDragEnter,false);
+		featureCanvas.addEventListener('dragleave',handleDragLeave,false);
+
+	</script>
+	</body>
+	<footer>
+	</footer>
 </body>
 </html>
