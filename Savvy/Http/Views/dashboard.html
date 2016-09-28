@@ -123,11 +123,14 @@
 				}, '-', {
 					text: 'Zoom in',
 					icon: 'images/zoom-in.png',
-				callback: zoomIn
+					callback: zoomIn
 				}, {
 					text: 'Zoom out',
 					icon: 'images/zoom-out.png',
-				callback: zoomOut
+					callback: zoomOut
+				}, '-', {
+					text: 'Add Marker',
+					callback: addMarker
 				}]
 			};
 
@@ -136,6 +139,8 @@
 			var grid = L.gridLayer({
 				attribution: 'Grid Layer',
 			});
+
+			var layers = [];
 
 			L.control.layers({
 				Road: roadMutant,
@@ -153,8 +158,45 @@
 			};
 
 			function addMarker(e){
-					L.marker(e.latlng).addTo(map);
+				var geojsonFeature = {
+
+		        "type": "Feature",
+		        "properties": {},
+		        "geometry": {
+		                "type": "Point",
+		                "coordinates": [e.latlng.lat, e.latlng.lng]
+		        }
+		    }
+		    var marker;
+
+		    L.geoJson(geojsonFeature, {
+		        pointToLayer: function(feature, latlng){
+		            marker = L.marker(e.latlng, {
+		                title: "Resource Location",
+		                alt: "Resource Location",
+		                draggable: true,
+										contextmenu: true,
+								    contextmenuItems: [{
+								        text: 'Remove Marker',
+								        index: 0,
+												callback: RemoveMarker
+								    }, {
+								        separator: true,
+								        index: 1
+								    }]
+		            });
+		            return marker;
+		        }
+		    }).addTo(map);
 			}
+
+			function RemoveMarker(e){
+					var temp = e.relatedTarget;
+					map.removeLayer(temp);
+					layers = map._layers;
+			}
+
+
 			function showCoordinates (e) {
 			    alert(e.latlng);
 			}
