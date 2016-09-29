@@ -113,6 +113,9 @@
 				layers: roadMutant,
 				zoomControl: false,
 				contextmenu: true,
+				copyWorldJump: true,
+				maxBounds:[[85,-168],[-60,190]],
+				maxBoundsViscosity: 1.0,
 				contextmenuWidth: 140,
 				contextmenuItems: [{
 					text: 'Show coordinates',
@@ -131,10 +134,17 @@
 				}, '-', {
 					text: 'Add Marker',
 					callback: addMarker
+				}, {
+					text: 'Set Point A',
+					callback: setPointA
+				}, {
+					text: 'Set Point B',
+					callback: setPointB
 				}]
 			};
 
-			var map = L.map('map', mapopts).setView([0,0],0);
+			var map = L.map('map', mapopts)
+					.setView([0,0],0)
 
 			var grid = L.gridLayer({
 				attribution: 'Grid Layer',
@@ -191,8 +201,7 @@
 			}
 
 			function RemoveMarker(e){
-					var temp = e.relatedTarget;
-					map.removeLayer(temp);
+					map.removeLayer(e.relatedTarget);
 					layers = map._layers;
 			}
 
@@ -212,6 +221,56 @@
 			function zoomOut (e) {
 			    map.zoomOut();
 			}
+
+			//Establish variables for calculating the distance
+			var pointA = false;
+			var pointB = false;
+
+			//Sets pointA equal to marker's latlng
+			function setPointA(e){
+					if(!pointA){
+						pointA = e.relatedTarget._latlng;
+					}
+
+					if(pointB){
+						var R = 6371e3;
+						var phi1 = toRadians(pointA.lat);
+						var phi2 = toRadians(pointB.lat);
+						var deltaPhi = toRadians(pointB.lat-pointA.lat);
+						var deltaSigma = toRadians(pointB.lng-pointA.lng);
+						var a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaSigma/2) * Math.sin(deltaSigma/2);
+						var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+						var d = R * c / 1000;
+
+						alert(d + 'km');
+						pointA = false;
+						pointB = false;
+					}
+			}
+			function setPointB(e){
+					if(!pointB){
+						pointB = e.relatedTarget._latlng;
+					}
+
+					if(pointA){
+						var R = 6371e3;
+						var phi1 = toRadians(pointA.lat);
+						var phi2 = toRadians(pointB.lat);
+						var deltaPhi = toRadians(pointB.lat-pointA.lat);
+						var deltaSigma = toRadians(pointB.lng-pointA.lng);
+						var a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaSigma/2) * Math.sin(deltaSigma/2);
+						var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+						var d = R * c / 1000;
+
+						alert(d + 'km');
+						pointA = false;
+						pointB = false;
+					}	
+			}
+
+			function toRadians(value) {
+    		return value * Math.PI / 180;
+  		}
 
 		</script>
 		</body>
