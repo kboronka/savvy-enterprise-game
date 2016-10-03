@@ -95,8 +95,6 @@
 		<script src="C:\Users\jwalker\Documents\SavvyEnterprisesGame\trunk\Savvy\Http\libs\ContextMenu\leaflet.contextmenu.min.js"></script>
 		<script src="C:\Users\jwalker\Documents\SavvyEnterprisesGame\trunk\Savvy\Http\libs\ContextMenu\leaflet.contextmenu.min.js"></script>
 		<script type="text/javascript">
-
-
 			var roadMutant = L.gridLayer.googleMutant({
 				type:'roadmap'
 			});
@@ -233,44 +231,30 @@
 					}
 
 					if(pointB){
-						var R = 6371e3;
-						var phi1 = toRadians(pointA.lat);
-						var phi2 = toRadians(pointB.lat);
-						var deltaPhi = toRadians(pointB.lat-pointA.lat);
-						var deltaSigma = toRadians(pointB.lng-pointA.lng);
-						var a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaSigma/2) * Math.sin(deltaSigma/2);
-						var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-						var d = R * c / 1000;
+						var c = map.distance(pointA, pointB);
+						var d = c / 1000;
 
 						alert(d + 'km');
 						pointA = false;
 						pointB = false;
 					}
 			}
+
+			//Sets pointB equal to marker's latlng
 			function setPointB(e){
 					if(!pointB){
 						pointB = e.relatedTarget._latlng;
 					}
 
 					if(pointA){
-						var R = 6371e3;
-						var phi1 = toRadians(pointA.lat);
-						var phi2 = toRadians(pointB.lat);
-						var deltaPhi = toRadians(pointB.lat-pointA.lat);
-						var deltaSigma = toRadians(pointB.lng-pointA.lng);
-						var a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaSigma/2) * Math.sin(deltaSigma/2);
-						var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-						var d = R * c / 1000;
+						var c = map.distance(pointA, pointB);
+						var d = c / 1000;
 
 						alert(d + 'km');
 						pointA = false;
 						pointB = false;
-					}	
+					}
 			}
-
-			function toRadians(value) {
-    		return value * Math.PI / 180;
-  		}
 
 		</script>
 		</body>
